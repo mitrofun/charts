@@ -1,27 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import MyChart from './components/Bar'
+import { Container, Row, Col } from 'reactstrap';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <Container>
+        <Row>
+        <Col className="text-center mb-3"><h1 className="display-4">Charts</h1></Col>
+        </Row>
+        <Row>
+          <Col></Col>
+          <Col><MyChart /></Col>
+          <Col></Col>
+        </Row>
+      </Container>
+    )
   }
 }
 
