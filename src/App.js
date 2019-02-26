@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RoundBarChart from './components/RoundBarChart'
+import RoundBarChart from './components/RoundBarChart/index'
 import { Container, Row, Col } from 'reactstrap';
 
 const series = [{
@@ -28,6 +28,8 @@ class App extends Component {
               series={series} 
               color='#5D88FC' 
               viewBox={'0 0 200 30'}
+              showTooltip={true}
+              tooltipOffset={[0, -14]}
             />
           </Col>
           <Col>
@@ -35,6 +37,9 @@ class App extends Component {
               series={series2} 
               color='#FF5879' 
               viewBox={'0 0 200 30'}
+              layerWidth={'70%'}
+              showTooltip={true}
+              tooltipOffset={[0, -14]}
             />
           </Col>
           <Col>
@@ -42,6 +47,8 @@ class App extends Component {
             series={series3} 
             color='#FFB335' 
             viewBox={'0 0 200 30'}
+            showTooltip={true}
+            tooltipOffset={[0, -14]}
           />
           </Col>
         </Row>
