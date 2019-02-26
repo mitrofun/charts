@@ -52,6 +52,8 @@ class App extends Component {
           />
           </Col>
         </Row>
+        <Row>
+        </Row>
       </Container>
     )
   }

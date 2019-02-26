@@ -5,12 +5,37 @@ import { Chart, Bars, Layer, Animate, Handlers } from 'rumble-charts'
 import './style.css'
 
 
-const tooltipStyle = {
+const _tooltipStyle = {
     background: '#FFF',
     border: '1px solid #FFF',
     borderRadius: 5,
     boxShadow: '3px 4px 12px rgba(128, 141, 173, 0.41)',
     padding: '2px 6px'
+}
+
+function _renderTooltipContent(chartColor, chartX, chartY) {
+    return (<React.Fragment>
+        <div style={{
+        display: 'inline-block',
+        background: chartColor,
+        borderRadius: 50,
+        verticalAlign: 'middle',
+        marginRight: 6,
+        width: 4,
+        height: 4
+        }} />
+        <div style={{
+            display: 'inline-block',
+            marginRight: 6
+        }}>{chartX}</div>
+        <div style={{
+            display: 'inline-block',
+            border: '1px solid gray',
+            borderRadius: 4,
+            paddingLeft: 3,
+            paddingRight: 3
+        }}>{chartY}</div>
+    </React.Fragment>)
 }
 
 class RoundBarChart extends Component {
@@ -60,7 +85,8 @@ class RoundBarChart extends Component {
             layerPosition,
             showTooltip,
             tooltipOffset,
-            tooltipStyle
+            tooltipStyle,
+            renderTooltipContent
         } = this.props
         const { 
             _showTooltip, 
@@ -68,20 +94,6 @@ class RoundBarChart extends Component {
             chartX,
             chartY 
         } = this.state
-
-        const TooltipContent = 
-        <React.Fragment><div style={{
-            display: 'inline-block',
-            background: color,
-            borderRadius: 50,
-            verticalAlign: 'middle',
-            marginRight: 6,
-            width: 4,
-            height: 4
-            }} />
-            <span>{chartX}</span>
-            <span>{chartY}</span>
-        </React.Fragment>
 
         const tooltip = showTooltip && _showTooltip && cursor[0] !== 0 ? 
             <div 
@@ -93,7 +105,7 @@ class RoundBarChart extends Component {
                     verticalAlign: 'middle',
                     ...tooltipStyle
                 }
-            }>{TooltipContent}</div> 
+            }>{renderTooltipContent(color, chartX, chartY)}</div> 
             : null
         return (
             <React.Fragment>
@@ -141,7 +153,8 @@ RoundBarChart.propTypes = {
     layerPosition: PropTypes.string,
     showTooltip: PropTypes.bool,
     tooltipOffset: PropTypes.array,
-    tooltipStyle: PropTypes.object
+    tooltipStyle: PropTypes.object,
+    renderTooltipContent: PropTypes.func
 }
 
 RoundBarChart.defaultProps = {
@@ -149,6 +162,7 @@ RoundBarChart.defaultProps = {
     layerHeight: '80%',
     layerPosition: 'middle center',
     tooltipOffset : [0, 0],
-    tooltipStyle: tooltipStyle,
+    tooltipStyle: _tooltipStyle,
     showTooltip: false,
+    renderTooltipContent: _renderTooltipContent
 }
