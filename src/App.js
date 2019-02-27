@@ -1,17 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import RoundBarChart from './components/RoundBarChart/index'
-import { Container, Row, Col } from 'reactstrap';
+import LineChart from './components/LineChart/index'
+import { Container, Row, Col } from 'reactstrap'
 
-const series = [{
+const seriesBar = [{
   data: [11, 12, 14, 12, 15, 10, 13, 14, 12, 12, 14]
 }]
 
-const series2 = [{
+const seriesBar2 = [{
   data: [21, 32, 44, 52, 15, 13, 53, 54, 12, 42, 54]
 }]
 
-const series3 = [{
+const seriesBar3 = [{
   data: [121, 32, 144, 52, 115, 113, 53, 154, 12, 42, 154]
+}]
+
+const seriesLine = [{
+  data: [10, 8, 1, 3, 2, 6, 17, 19, 14, 12, 16, 22]
 }]
 
 function customRenderTooltipContent(chartColor, chartX, chartY) {
@@ -39,15 +44,15 @@ class App extends Component {
         <Row className="mb-3">
           <Col>
             <RoundBarChart 
-              series={series} 
-              color='#5D88FC' 
+              series={seriesBar} 
+              color={'#5D88FC'}
               viewBox={'0 0 200 30'}
               showTooltip={true}
             />
           </Col>
           <Col>
             <RoundBarChart 
-              series={series2} 
+              series={seriesBar2} 
               color='#FF5879' 
               viewBox={'0 0 200 30'}
               layerWidth={'70%'}
@@ -57,15 +62,25 @@ class App extends Component {
           </Col>
           <Col>
           <RoundBarChart 
-            series={series3} 
-            color='#FFB335' 
+            series={seriesBar3} 
+            color={'#FFB335'}
             viewBox={'0 0 200 30'}
             showTooltip={true}
             renderTooltipContent={(chartColor, chartX, chartY) => (<div>tooltip text</div>)}
           />
           </Col>
         </Row>
-        <Row>
+        <Row className="mb-8">
+          <Col>
+          <LineChart
+            series={seriesLine} 
+            color={'#15E1A7'}
+            viewBox={'0 0 100 30'}
+            layerWidth={'76%'}
+          />
+          </Col>
+          <Col></Col>
+          <Col></Col>
         </Row>
       </Container>
     )

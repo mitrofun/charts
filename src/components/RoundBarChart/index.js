@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import { Chart, Bars, Layer, Animate, Handlers } from 'rumble-charts'
 import ReactTooltip from 'react-tooltip'
 
