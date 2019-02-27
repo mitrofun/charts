@@ -1,17 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types';
 import { Chart, Bars, Layer, Animate, Handlers } from 'rumble-charts'
+import ReactTooltip from 'react-tooltip'
 
 import './style.css'
-
-
-const _tooltipStyle = {
-    background: '#FFF',
-    border: '1px solid #FFF',
-    borderRadius: 5,
-    boxShadow: '3px 4px 12px rgba(128, 141, 173, 0.41)',
-    padding: '2px 6px'
-}
 
 function _renderTooltipContent(chartColor, chartX, chartY) {
     return (<React.Fragment>
@@ -40,13 +32,15 @@ function _renderTooltipContent(chartColor, chartX, chartY) {
 
 class RoundBarChart extends Component {
     state = {
+        _key: '',
         _showTooltip: false,
-        cursor: [0, 0],
+        _clickBar: false,
         chartX: 0,
         chartY: 0
     }
 
-    handleClick = ({closestPoints}) => {
+
+    setTooltipValue = ({closestPoints}) => {
         const {showTooltip} = this.props
         if (!showTooltip) {
             return
@@ -59,20 +53,29 @@ class RoundBarChart extends Component {
 
         const { point: {x: chartX, y: chartY} } = closest
         this.setState({
-            _showTooltip: true,
             chartX,
             chartY
         })
     }
 
-    setCursorLocation = event => {
-        const {clientX, clientY} = event
-        const cursor = [clientX, clientY]
-        this.setState({
-            cursor
+    componentDidMount() {
+        this.setState ({
+            _key:(Math.random()*1e10).toString(36).split('.')[0]
         })
     }
 
+    handleMouseMove(e) {
+        ReactTooltip.rebuild()
+        const {_key} = this.state
+        e.target.setAttribute('data-tip', true)
+        e.target.setAttribute('data-for', `bar-tooltip-${_key}`)
+    }
+
+    handleMouseLeave(e) {
+        ReactTooltip.rebuild()
+        e.target.removeAttribute('data-tip')
+        e.target.removeAttribute('data-for')
+    }
 
     render() {
         const { 
@@ -85,38 +88,35 @@ class RoundBarChart extends Component {
             layerPosition,
             showTooltip,
             tooltipOffset,
-            tooltipStyle,
             renderTooltipContent
         } = this.props
         const { 
-            _showTooltip, 
-            cursor,
+            _key,
             chartX,
             chartY 
         } = this.state
 
-        const tooltip = showTooltip && _showTooltip && cursor[0] !== 0 ? 
-            <div 
+        const tooltip = showTooltip ?
+            <div className='chart-tooltip__wrapper'>
+            <ReactTooltip 
                 className={`chart-tooltip ${className}`}
-                style={{
-                    position: 'fixed',
-                    left: cursor[0] + tooltipOffset[0], 
-                    top: cursor[1] + tooltipOffset[1],
-                    verticalAlign: 'middle',
-                    ...tooltipStyle
-                }
-            }>{renderTooltipContent(color, chartX, chartY)}</div> 
-            : null
+                offset={tooltipOffset}
+                place={'right'}
+                type={'light'}
+                id={`bar-tooltip-${_key}`}
+                getContent={()=>renderTooltipContent(color, chartX, chartY)}
+            />
+            </div> : null
         return (
             <React.Fragment>
-                {tooltip}
+                { tooltip }
                 <Chart 
                     viewBox={viewBox}
                     series={series} 
                     minY={0}
                 >   
                     <Layer width={layerWidth} height={layerHeight} position={layerPosition}>
-                        <Handlers onClick={this.handleClick}>
+                        <Handlers onMouseMove={this.setTooltipValue}>
                             <Animate>
                                 <Bars 
                                     colors={[color]}
@@ -127,7 +127,8 @@ class RoundBarChart extends Component {
                                         strokeLinejoin: 'round',
                                         strokeWidth: 6,
                                         stroke: color,
-                                        onClick: e => (showTooltip ? this.setCursorLocation(e) : null)
+                                        onMouseMove: e => (showTooltip ? this.handleMouseMove(e) : null),
+                                        onMouseLeave: e => (showTooltip ? this.handleMouseLeave(e): null)
                                     }}
                                 /> 
                             </Animate>
@@ -152,17 +153,16 @@ RoundBarChart.propTypes = {
     layerHeight: PropTypes.string,
     layerPosition: PropTypes.string,
     showTooltip: PropTypes.bool,
-    tooltipOffset: PropTypes.array,
-    tooltipStyle: PropTypes.object,
+    tooltipOffset: PropTypes.object,
     renderTooltipContent: PropTypes.func
 }
 
 RoundBarChart.defaultProps = {
+    className: '',
     layerWidth: '80%',
     layerHeight: '80%',
     layerPosition: 'middle center',
-    tooltipOffset : [0, 0],
-    tooltipStyle: _tooltipStyle,
+    tooltipOffset: {left: 10},
     showTooltip: false,
     renderTooltipContent: _renderTooltipContent
 }

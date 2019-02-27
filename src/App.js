@@ -43,7 +43,6 @@ class App extends Component {
               color='#5D88FC' 
               viewBox={'0 0 200 30'}
               showTooltip={true}
-              tooltipOffset={[0, -14]}
             />
           </Col>
           <Col>
@@ -53,7 +52,6 @@ class App extends Component {
               viewBox={'0 0 200 30'}
               layerWidth={'70%'}
               showTooltip={true}
-              tooltipOffset={[0, -14]}
               renderTooltipContent={customRenderTooltipContent}
             />
           </Col>
@@ -63,7 +61,6 @@ class App extends Component {
             color='#FFB335' 
             viewBox={'0 0 200 30'}
             showTooltip={true}
-            tooltipOffset={[0, -14]}
             renderTooltipContent={(chartColor, chartX, chartY) => (<div>tooltip text</div>)}
           />
           </Col>

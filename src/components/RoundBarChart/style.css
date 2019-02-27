@@ -1,0 +1,13 @@
+.chart-tooltip__wrapper .__react_component_tooltip {
+    color: #000;
+    font-size: 14px;
+    padding: 3px 6px;
+    background-color: #FFF;
+    border-radius: 5px;
+    box-shadow: 3px 4px 12px rgba(128, 141, 173, 0.41);
+  }
+
+.chart-tooltip__wrapper .__react_component_tooltip:before, 
+.chart-tooltip__wrapper .__react_component_tooltip:after {
+    content: none;
+}
