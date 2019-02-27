@@ -77,6 +77,8 @@ class App extends Component {
             color={'#15E1A7'}
             viewBox={'0 0 100 30'}
             layerWidth={'76%'}
+            showTooltip={true}
+            asArea={true}
           />
           </Col>
           <Col></Col>

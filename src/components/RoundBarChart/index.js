@@ -3,38 +3,14 @@ import PropTypes from 'prop-types'
 import { Chart, Bars, Layer, Animate, Handlers } from 'rumble-charts'
 import ReactTooltip from 'react-tooltip'
 
+import { _renderTooltipContent } from '../../common/charts'
+
 import './style.css'
 
-function _renderTooltipContent(chartColor, chartX, chartY) {
-    return (<React.Fragment>
-        <div style={{
-        display: 'inline-block',
-        background: chartColor,
-        borderRadius: 50,
-        verticalAlign: 'middle',
-        marginRight: 6,
-        width: 4,
-        height: 4
-        }} />
-        <div style={{
-            display: 'inline-block',
-            marginRight: 6
-        }}>{chartX}</div>
-        <div style={{
-            display: 'inline-block',
-            border: '1px solid gray',
-            borderRadius: 4,
-            paddingLeft: 3,
-            paddingRight: 3
-        }}>{chartY}</div>
-    </React.Fragment>)
-}
 
 class RoundBarChart extends Component {
     state = {
         _key: '',
-        _showTooltip: false,
-        _clickBar: false,
         chartX: 0,
         chartY: 0
     }
